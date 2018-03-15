@@ -49,10 +49,7 @@ def show_images(images, cols = 1, titles = None):
     fig.set_size_inches(np.array(fig.get_size_inches()) * n_images)
     plt.show()
 
-#bin_Lenna = 'im_b.png'
-#orig_Lenna = 'im_c.png'
-#binarize_image(orig_Lenna, bin_Lenna, 127)
-
+'''
 #load images from files
 pattern = 'im_c.png'
 test = 'im_c.png'
@@ -69,36 +66,88 @@ template = Image.open(test)
 #convert to numpy matrix
 face = np.matrix(face) 
 template = np.matrix(template)
-
-face = np.matrix([[0, 0, 0],
-                  [0, 255, 0],
-                  [0, 0, 0],
-                  [0, 255, 0],
-                  [0, 255, 0]])
+'''
+face = np.matrix([[255],
+                  [255],
+                  [255],
+                  [255],
+                  [255]])
 template = np.matrix([[0, 0, 0],
                   [0, 255, 0],
                   [0, 0, 0],
                   [0, 255, 0],
                   [0, 255, 0]])
 
+#розміри символа
+char_h = 5
+char_w = 3
+'''
 print('Writing images...')
-with open('A.txt', 'w') as f:
+with open('Sep.txt', 'w') as f:
     for line in face:
         np.savetxt(f, line, fmt='%d')
-matr = []
-temp_row = []
-print('reading from file...')
-with open('A.txt') as f:
-    for line in f:
-        matr.append(line)
+'''
+#вичитати слова
 
-#matr = [int(item) for item in matr]
-matr = [item.rstrip().split(' ')for item in matr]
+#список із буквами слова(назви файлів)
+words = ['A.txt', 'Sep.txt', 'B.txt', 'Sep.txt', 'C.txt']
+#список шаблонних букв
+char_templates = ['A.txt', 'B.txt', 'C.txt', 'Sep.txt']
 
-matr = np.matrix(matr)
-print(matr)
+#вичитані дані з файлів. слово. яке треба розпізнати
+char_list = []
+
+#працює start
+print('reading from files...')
+#пройтись по всіх файлах
+for item in words:
+    #поточна буква
+    matr = []
+    #поточний рядок букви
+    temp_row = []
+    #вичитати поточну букву і записати в matr
+    with open(item) as f:
+        for line in f:
+            matr.append(line)
+    matr = [item.rstrip().split(' ')for item in matr]
+    matr = np.matrix(matr)
+    char_list.append(matr.astype('int'))
+
+print(char_list)
+curr_im_list = [face, template]
+
+
+print('curr im list')
+print(curr_im_list)
+
+print('test matr...')
+
+test_matr = np.matrix(np.concatenate((template, face), axis=1))
+print(test_matr)
+
+#зчепити докупи порізані картинки
+test_vec = np.array([])
+for row in test_matr:
+    test_vec = np.append(test_vec, row)
     
-'
+#перетворити вектор картинок в одне єдине - велику картинку
+test_vec = test_vec.reshape(char_h, len(test_vec) // char_h)
+show_images([np.asmatrix(test_vec)])
+# finish
+'''
+im_list = []
+temp_row = []
+for item in char_list:
+    temp_row = []
+    for row in item:
+        temp_row.append(row)
+    #face = np.reshape(temp_row, (face.shape[0], len(face) / face.shape[0] ))
+    print('temp row...')
+    print(temp_row)
+    im_list.append(temp_row)
+'''
+#show_images(im_list)
+'''    
 #зробити дві А поки що без пробілів
 temp_row = []
 for row in face:
@@ -108,7 +157,8 @@ print('binarized template type: ')
 print(template.shape)
 print('face type: ')
 print(face.shape)
-
+'''
+'''
 #запис зображдень у тестовий файл
 print('Writing images...')
 with open('facefile.txt', 'w') as f:
@@ -135,7 +185,7 @@ with open('corrfile.txt', 'w') as f:
         
 im_list = [face, template, corr]
 show_images(im_list)
-
+'''
 
 '''
 fig, (ax_orig, ax_template, ax_corr) = plt.subplots(3, 1, figsize=(6, 15))
