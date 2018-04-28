@@ -3,7 +3,7 @@ from random import gauss
 import matplotlib.pyplot as plt
 
 #к-кість ознак
-k = 2
+k = 4
 #кількість класів
 M = 3
 #центри та розсіяння класів
@@ -56,8 +56,8 @@ for i in range(M):
     #по всіх ознаках
         for g in range(k):
             print("Перевірка: ")
-            print("i = ", i, "j = ", j, "g = ", g)
-            print(vidr[i][g][1]," >=", vidr[j][g][0], "and ", vidr[j][g][1], ">= ",vidr[i][g][0])
+            #print("i = ", i, "j = ", j, "g = ", g)
+            #print(vidr[i][g][1]," >=", vidr[j][g][0], "and ", vidr[j][g][1], ">= ",vidr[i][g][0])
             
             if vidr[i][g][1] >= vidr[j][g][0] and vidr[j][g][1] >= vidr[i][g][0]:
                 print("Cluster # ", i, "and Cluster # ", j,
